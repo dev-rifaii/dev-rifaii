@@ -1,0 +1,54 @@
+body {
+    background: #1D1F20;
+    color: white;
+    font-family: 'Roboto Mono';
+}
+
+.page-center {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bio {
+    position: absolute;
+    top: 30%;
+    left: 32%;
+    font-size: 5rem;
+    width: fit-content;
+    transform: translate(-20%, -35%);
+}
+
+.guides {
+    display: flex;
+    flex-direction: column;
+    color: #8e04ff;
+    gap: 30px;
+    font-size: 1.5rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    top: 90%;
+}
+
+.socials {
+    position: absolute;
+    left: 48%;
+}
+
+.dr-border {
+    border: solid 3px;
+    padding: 5px;
+    transition: transform 1s;
+}

@@ -1,0 +1,76 @@
+body {
+    background: #1D1F20;
+    color: white;
+    font-family: 'Montserrat' !important;
+    font-size: 1.2rem;
+}
+
+@media only screen and (max-width: 900px) {
+    body {
+        font-size: 1.3rem;
+    }
+}
+
+code {
+    font-family: 'Roboto Mono' !important;
+}
+
+pre {
+    position: relative;
+    border: 1px solid lightslategray;
+    background-color: #323539 !important;
+    max-width: fit-content;
+}
+
+code {
+    white-space: break-spaces !important;
+    word-break: break-word !important;
+}
+
+code {
+    text-shadow: none !important;
+    color: #cb61cb !important;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+.copy-button {
+    position: absolute;
+    background: #323539;
+    left: 96.5%;
+    top: 2%;
+    width: 20px;
+    height: 20px;
+}
+
+.article {
+    margin-left: 4vw;
+    margin-right: 4vw;
+    max-width: 1200px;
+}
+
+.function {
+    color: rgb(255, 226, 65) !important;
+}
+
+.string {
+    color: rgb(126, 196, 70) !important;
+}
+
+.keyword {
+    color: #26acd4 !important;
+}
+
+.operator {
+    color: #999 !important;
+}
+
+.token {
+    background-color: #323539 !important;
+}
+
+.property {
+    color: #d71f18 !important;
+}
