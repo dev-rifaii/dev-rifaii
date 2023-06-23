@@ -66,6 +66,7 @@ function appendArticlesHrefToHomepage(filesNames) {
 }
 
 function build() {
+
   createBuiltDirs()
 
   fs.readdirSync(`${guidesDir}`)
@@ -86,6 +87,9 @@ function build() {
 }
 
 function createBuiltDirs() {
+  if (fs.existsSync('built')) {
+    fs.rmSync('built', { recursive: true, force: true });
+  }
   const builtDirs = ['built', 'built/guides', 'built/resources', 'built/resources/images']
   builtDirs.forEach(dir => {
     if (!fs.existsSync(dir)) {
