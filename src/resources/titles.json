@@ -1,7 +1,7 @@
 [
     {
         "fileName": "CodeGen",
-        "title": "Generating Feign clients in Java using OpenAPI code generation CLI"
+        "title": "Generating Feign clients in Java using OpenAPI"
     },
     {
         "fileName": "NginxReverseProxy",

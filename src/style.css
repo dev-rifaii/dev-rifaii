@@ -8,19 +8,16 @@ body {
     position: absolute;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 200px;
     top: 50%;
     left: 50%;
+    height: 50vh;
     transform: translate(-50%, -50%);
 }
 
 .bio {
-    position: absolute;
-    top: 30%;
-    left: 32%;
-    font-size: 5rem;
-    width: fit-content;
-    transform: translate(-20%, -35%);
+    font-size: 3rem;
+    white-space: nowrap;
 }
 
 .guides {
@@ -29,6 +26,8 @@ body {
     color: #8e04ff;
     gap: 30px;
     font-size: 1.5rem;
+    prefix: "test";
+    align-items: center;
 }
 
 a {
@@ -37,18 +36,27 @@ a {
 }
 
 footer {
+    display: flex;
+    justify-content: center;
     position: absolute;
-    width: 100%;
-    top: 90%;
+    top: 90dvh;
+    left: 47dvw;
 }
 
-.socials {
-    position: absolute;
-    left: 48%;
-}
+@media only screen and (max-width: 900px) {
+    .page-center {
+        padding-left: 20px;
+        top: 15dvh;
+        height: 50vh;
+        gap: 0px;
+    }
+    .bio {
+        font-size: 3.2rem;
+        white-space: break-spaces;
+    }
 
-.dr-border {
-    border: solid 3px;
-    padding: 5px;
-    transition: transform 1s;
+    #gh-logo {
+        max-width: 500px;
+        max-height: 500px;
+    }
 }

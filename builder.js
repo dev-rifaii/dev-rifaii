@@ -7,7 +7,7 @@ const guidesDir = 'src/guides'
 const resourcesDir = 'src/resources'
 const imagesDir = `${resourcesDir}/images`
 
-const headHtml = "<!DOCTYPE html><html lang=\"en\"><head>\r\n    \r\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" \/>\r\n        <link rel=\"stylesheet\" href=\"style.css\">\r\n        <link rel=\"stylesheet\" type=\"text\/css\" href=\"https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/normalize\/8.0.1\/normalize.min.css\">\r\n        <link href=\"https:\/\/fonts.googleapis.com\/css?family=Roboto Mono\" rel=\"stylesheet\">\r\n        <link rel=\"stylesheet\" href=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/themes\/prism.min.css\">\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/prism.min.js\"><\/script>\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/components\/prism-groovy.min.js\"><\/script>\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/components\/prism-java.min.js\"><\/script>\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/components\/prism-json.min.js\"><\/script>\r\n        <link href=\"https:\/\/fonts.googleapis.com\/css?family=Montserrat\" rel=\"stylesheet\">\r\n        <title>Article<\/title>\r\n    <\/head>\r\n\r\n\r\n<body>\r\n    <div class=\"article\">"
+const headHtml = "<!DOCTYPE html><html lang=\"en\"><head>\r\n    \r\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" \/>\r\n        <link rel=\"stylesheet\" href=\"style.css\">\r\n        <link rel=\"stylesheet\" type=\"text\/css\" href=\"https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/normalize\/8.0.1\/normalize.min.css\">\r\n        <link href=\"https:\/\/fonts.googleapis.com\/css?family=Roboto Mono\" rel=\"stylesheet\">\r\n        <link rel=\"stylesheet\" href=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/themes\/prism.min.css\">\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/prism.min.js\"><\/script>\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/components\/prism-groovy.min.js\"><\/script>\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/components\/prism-java.min.js\"><\/script>\r\n        <script src=\"https:\/\/cdn.jsdelivr.net\/npm\/prismjs@1.27.0\/components\/prism-json.min.js\"><\/script>\r\n        <link href=\"https:\/\/fonts.googleapis.com\/css?family=Montserrat\" rel=\"stylesheet\">\r\n        <title>dev-rifaii<\/title>\r\n    <\/head>\r\n\r\n\r\n<body>\r\n    <div class=\"article\">"
 const footHtml = "    <\/div>\r\n<\/body>\r\n\r\n<\/html>"
 
 
@@ -55,7 +55,7 @@ function appendArticlesHrefToHomepage(filesNames) {
     $('div.guides').empty();
     filesNames.forEach(fileName => {
       const title = titles.find(title => title.fileName === fileName);
-      $('div.guides').append(`<a href="./guides/${fileName}.html"> ${title.title} </a>`);
+      $('div.guides').append(`<a href="./guides/${fileName}.html"> ➡️ ${title.title} </a>`);
     })
 
     fs.writeFile('src/index.html',
