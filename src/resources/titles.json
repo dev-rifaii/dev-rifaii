@@ -6,5 +6,9 @@
     {
         "fileName": "NginxReverseProxy",
         "title": "Setting up reverse proxy using Nginx"
+    },
+    {
+        "fileName": "RabbitMQBasics",
+        "title": "Basics of RabbitMQ"
     }
 ]
