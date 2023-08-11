@@ -94,4 +94,5 @@ There are four types of exchanges:
 Useful links:
 
 <https://www.youtube.com/watch?v=o8eU5WiO8fw>
+
 <https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-headers>

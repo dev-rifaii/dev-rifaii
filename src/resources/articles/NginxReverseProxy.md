@@ -56,7 +56,7 @@ In this case:
 
 curl <http://localhost:80/app1>, should return "*Response from app1*",
 
-curl <http://localhost:80/app2> should return "*Response from app1*"
+curl <http://localhost:80/app2> should return "*Response from app2*"
 
 ## Headers
 
