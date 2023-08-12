@@ -33,7 +33,7 @@ There are four types of exchanges:
 
 - ### Topic Exchange
 
-  Similar to direct exchange, when a message is sent to a topic exchange it is routed to any queues with that are bound to it with a matching routing key. However, topic exchange offers more flexibility by allowing the use of wildcards in the routing key.
+  Similar to direct exchange, when a message is sent to a topic exchange it is routed to any queues that are bound to it with a matching routing key. However, topic exchange offers more flexibility by allowing the use of wildcards in the routing key.
 
   `* (star) can substitute for exactly one word.`
 
