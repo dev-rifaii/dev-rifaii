@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head>
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/themes/prism.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/prism.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/components/prism-groovy.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/components/prism-java.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/components/prism-json.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <title>dev-rifaii</title>
+    </head>
+
+
+<body>
+    <div class="article"><h1>Generating Feign clients in Java using OpenAPI code generation CLI:</h1>
+<p>The demonstration will be on a Java 17 Spring boot 3 project with Gradle Groovy DSL and
+<a href="https://petstore3.swagger.io/">https://petstore3.swagger.io/</a> will be be used as an example of the API to be generated.</p>
+<h3>Dependency:</h3>
+<pre><code class="language-groovy">configurations {
+    openApiGenerator
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.1'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    openApiGenerator 'org.openapitools:openapi-generator-cli:6.6.0'
+}
+</code></pre>
+<h3>Open-Api code generator configuration:</h3>
+<pre><code class="language-groovy">def openApiGeneratorConfig = {
+    classpath configurations.openApiGenerator
+    mainClass = 'org.openapitools.codegen.OpenAPIGenerator'
+    args 'generate'
+    args '-g', 'java'
+    args '-o', "$projectDir"
+    args '-t', "$projectDir/src/main/resources/openapi-config/templates"
+    args "--additional-properties", "library=feign," +
+            "dateLibrary=java8," +
+            "useBeanValidation=false," +
+            "performBeanValidation=false"
+}
+</code></pre>
+<p>Open api generates 2 methods for each endpoint, one that wraps response objects in an ApiResponse object that contains more information about HTTP response like so:</p>
+<pre><code class="language-java">@RequestLine("POST /pet")
+@Headers({
+  "Content-Type: application/json",
+  "Accept: application/json",
+})
+ApiResponse&lt;Pet&gt; addPetWithHttpInfo(Pet pet);
+</code></pre>
+<p>and one that just returns the response body like so:</p>
+<pre><code class="language-java">@RequestLine("POST /pet")
+@Headers({
+  "Content-Type: application/json",
+  "Accept: application/json",
+})
+Pet addPet(Pet pet);
+</code></pre>
+<p>which in my use case was not needed so I ended up using a custom moustache template to generate only one method for each endpoint which only returns response body.</p>
+<p>Add custom template <a href="https://gist.github.com/dev-rifaii/2b0e7131fa60f957a2b052b48b34f0ff">api.mustache</a> to any directory in the project, path needs to be referenced in the <code>-t</code> flag in configuration accordingly.</p>
+<h3>Task:</h3>
+<pre><code class="language-groovy">task generateApi(type: JavaExec) {
+    configure openApiGeneratorConfig
+    systemProperties = ['apis': '', 'models': '']
+    args '-i', 'https://petstore3.swagger.io/api/v3/openapi.yaml'
+    args '--additional-properties', 'modelPackage=dev.rifaii.pet.model,' +
+            'apiPackage="dev.rifaii.pet.api'
+}
+</code></pre>
+<p>Running the task will generate the apis and models.</p>
+<p>A bean for feign configuration is needed and to define the generated API base url:</p>
+<pre><code class="language-java">@Configuration
+@EnableFeignClients
+public class ApiConfig {
+
+    @FeignClient(name = "petClient", url = "https://petstore3.swagger.io/api/v3")
+    public interface PetApiClient extends PetApi {
+    }
+
+    @Bean
+    public Contract feignContract() {
+        return new Contract.Default();
+    }
+}
+</code></pre>
+<p>That wraps it up, now PetApi can just be autowired.</p>
+    </div>
+
+
+</body></html>

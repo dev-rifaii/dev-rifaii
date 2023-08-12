@@ -1,0 +1,63 @@
+body {
+    background: #1D1F20;
+    color: white;
+    font-family: 'Roboto Mono';
+}
+
+.page-center {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 200px;
+    top: 50%;
+    left: 50%;
+    height: 50vh;
+    transform: translate(-50%, -50%);
+}
+
+.bio {
+    font-size: 3rem;
+    white-space: nowrap;
+}
+
+.guides {
+    display: flex;
+    flex-direction: column;
+    color: #8e04ff;
+    gap: 30px;
+    font-size: 1.5rem;
+    prefix: "test";
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 90dvh;
+    left: 47dvw;
+}
+
+@media only screen and (max-width: 900px) {
+    .page-center {
+        padding-left: 20px;
+        top: 15dvh;
+        height: 50vh;
+        gap: 0px;
+    }
+    .bio {
+        font-size: 3.2rem;
+        white-space: break-spaces;
+    }
+
+    #gh-logo {
+        max-width: 500px;
+        max-height: 500px;
+        display: none;
+    }
+}

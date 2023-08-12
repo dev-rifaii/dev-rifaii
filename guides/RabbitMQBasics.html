@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head>
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/themes/prism.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/prism.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/components/prism-groovy.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/components/prism-java.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.27.0/components/prism-json.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <title>dev-rifaii</title>
+    </head>
+
+
+<body>
+    <div class="article"><h1>RabbitMQ</h1>
+<h2>Exchange</h2>
+<p>Before learning about RabbitMQ I thought that messages are directly sent to queues and consumers simply consume these messages.</p>
+<p>It turns out that the flow is a bit more sophisticated. Publishers send messages to an <code>Exchange</code> which routes messages to a queue using <code>Bindings</code>.</p>
+<p>From the <a href="https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchanges">RabbitMQ documentation</a> 'Exchanges are AMQP 0-9-1 entities where messages are sent to. Exchanges take a message and route it into zero or more queues.'</p>
+<h2>Binding</h2>
+<p>Binding is the bridge between an <code>Exchange</code> and a <code>Queue</code>.
+As mentioned above, messages are sent to an exchange, in order to get the message delivered to the queue(s), you bind an exchange to one or more queues.</p>
+<blockquote>
+<p>When you bind a queue in your application, the binding is local to your application's channel or connection. Other applications or connections that establish their own channels will not see or be affected by the bindings created in your application.</p>
+</blockquote>
+<p>Bindings between exchanges and queues can be different depending on the type of the exchange.</p>
+<p>There are four types of exchanges:</p>
+<ul>
+<li><h3>Direct Exchange</h3>
+<p>This is the simplest and most commonly used type of exchage. Messages sent to a direct exchange are sent to the queue(s) based on a <code>Routing Key</code> that is chosen upon the creation of the binding.</p>
+<p>When you send a message to an exchange you send a routing key along with it, and if the routing key matches a routing key of a binding created between the exchange and the queue(s), then the message is sent to the corresponding queue(s)</p>
+<p>Example: If you have an exchange named <code>cookies</code> bound to a queue named <code>butterCookies</code> with the routing key <code>bc</code> then any messages sent to the exchange <code>cookies</code> with the routing key <code>bc</code> will end up in the queue <code>butterCookies</code>. No rocket science here</p>
+</li>
+<li><h3>Fanout Exchange</h3>
+<p>Messages sent to fanout exchange are sent to <strong>all</strong> queues bound to the exchange regardless of routing key.</p>
+</li>
+<li><h3>Topic Exchange</h3>
+<p>Similar to direct exchange, when a message is sent to a topic exchange it is routed to any queues with that are bound to it with a matching routing key. However, topic exchange offers more flexibility by allowing the use of wildcards in the routing key.</p>
+<p><code>* (star) can substitute for exactly one word.</code></p>
+<p><code># (hash) can substitute for zero or more words.</code></p>
+<p>Example:</p>
+<p>Imagine you work in a big fast food chain that has a delivery option, and this company also wants to audit specific details about every order that comes in.</p>
+<p>So let's say you have two queues, one named <code>deliveryOrders</code> which is consumed by some code that processes delivery orders and another named <code>ordersToAudit</code> which is consumed by some auditing department in the company.</p>
+<p><code>orders</code> queue is bound to a topic exchange <code>ordersProcessing</code> with the routing key <code>order.delivery</code>, and <code>ordersToAudit</code> queue is bound to the same topic exchange with the routing key <code>order.#</code> since auditing department is interested in every order regardless of the type.</p>
+<p>Any messages sent to the exchange <code>ordersProcessing</code> with the routing key <code>order.delivery</code> will be routed to both queues, and any messages with routing key starting with <code>order.</code> will be routed to auditing queue without needing to explicity create a binding to auditing queue for each type of order with its own routing key.</p>
+<blockquote>
+<p>routing keys for topic exchanges must be a list of words, delimited by dots.</p>
+</blockquote>
+</li>
+<li><h3>Headers  Exchange</h3>
+<p>The RabbitMQ documentation describes Headers Exchange as "direct exchanges on steroids".</p>
+<p>It is possible in rabbit to send headers along with your message.
+This exchange uses headers to route messages to the bound queues instead of a routing key, which means when creating the binding you don't choose a routing key, but instead you choose one or more header(s) to have a specific value.
+Unlike routing key, the value of the header you choose does not have to be a string; it could be an integer or a hash.</p>
+<p>Example:</p>
+<p>When you create the binding you tell Rabbit that any message sent to this exchange needs to have the header "Foo" To have the value "Bar" and the header "John" to have the value "Doe".</p>
+<p>This begs the question, what happens if a message comes in with "Foo" having the value "Bar" but "John" doesn't have the value "Doe" ?</p>
+<p>This is something you can configure by telling rabbit that you want all of them to match or only one of them to match.</p>
+<p>Java Implementation:</p>
+<pre><code class="language-java">final String QUEUE_NAME = "recipesToTry";
+final String EXCHANGE_NAME = "recipes";
+
+//Queue
+channel.queueDeclare(QUEUE_NAME, true, false, false, emptyMap());
+
+//Exchange
+channel.exchangeDeclare(EXCHANGE_NAME, "headers", true, false, emptyMap());
+
+//Bindings
+var bindingArgs = new HashMap&lt;String, Object&gt;();
+bindingArgs.put("x-match", "any"); //any
+bindingArgs.put("Vegan", "Yes");
+bindingArgs.put("Keto", "No");
+
+channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "", bindingArgs);
+</code></pre>
+<p>In this case if we send a recipe to the exchange with the header "Vegan" having the value "Yes" then it will be sent to the queue regardless of the value of "Keto" because we set the value of "x-match" to <strong>any</strong>.
+If we wanted all of them to match then we'd set "x-match" to "all"</p>
+</li>
+</ul>
+<p>Useful links:</p>
+<p><a href="https://www.youtube.com/watch?v=o8eU5WiO8fw">https://www.youtube.com/watch?v=o8eU5WiO8fw</a></p>
+<p><a href="https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-headers">https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-headers</a></p>
+    </div>
+
+
+</body></html>

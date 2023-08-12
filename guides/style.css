@@ -1,0 +1,127 @@
+body {
+    background: #1D1F20;
+    color: #c7c7c7;
+    font-family: 'Montserrat' !important;
+    font-size: 1.2rem;
+}
+
+@media only screen and (max-width: 900px) {
+    body {
+        font-size: 1.3rem;
+    }
+}
+
+code {
+    font-family: 'Roboto Mono' !important;
+}
+
+pre {
+    position: relative;
+    border: 1px solid lightslategray;
+    background-color: #323539 !important;
+    max-width: fit-content;
+}
+
+code {
+    white-space: break-spaces !important;
+    word-break: break-word !important;
+}
+
+code {
+    text-shadow: none !important;
+    border-radius: 5px;
+    background-color: #3c3c3c;
+    color: white;
+}
+
+h1 {
+    color: #a71d1d;
+    font-size: 4rem !important;
+}
+
+h2 {
+    color: white;
+    font-size: 3rem;
+}
+
+h3 {
+    color: white;
+    font-size: 2rem;
+}
+
+a {
+    color: #3634b9 !important;
+}
+
+blockquote {
+    color: gray;
+    border-left: 5px solid #a71d1d;
+    padding-left: 10px;
+}
+
+.copy-button {
+    position: absolute;
+    background: #323539;
+    left: 96.5%;
+    top: 2%;
+    width: 20px;
+    height: 20px;
+}
+
+.article {
+    margin-left: 4vw;
+    margin-right: 4vw;
+    max-width: 1200px;
+}
+
+.function {
+    color: rgb(255, 226, 65) !important;
+}
+
+.string {
+    color: #7ec446 !important;
+}
+
+.keyword {
+    color: #23bceb !important;
+}
+
+.operator {
+    color: #999 !important;
+}
+
+.token {
+    background-color: #323539 !important;
+}
+
+.property {
+    color: #d71f18 !important;
+}
+
+code.language-nginx {
+    color: #7ec446 !important;
+}
+
+code.language-javascript {
+    color: white !important;
+}
+
+code.language-text {
+    color: gray !important;
+}
+
+code.language-java {
+    color: white !important;
+}
+
+span.class-name {
+    color: #a71d1d !important;
+}
+
+span.boolean {
+    color: #9e139e !important;
+}
+
+span.number {
+    color: #a71d1d !important;
+}
